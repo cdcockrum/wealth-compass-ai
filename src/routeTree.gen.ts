@@ -9,8 +9,68 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as TaxRouteImport } from './routes/tax'
+import { Route as SettingsRouteImport } from './routes/settings'
+import { Route as RetirementRouteImport } from './routes/retirement'
+import { Route as ResearchRouteImport } from './routes/research'
+import { Route as PortfolioRouteImport } from './routes/portfolio'
+import { Route as OpportunitiesRouteImport } from './routes/opportunities'
+import { Route as MarketRouteImport } from './routes/market'
+import { Route as GoalsRouteImport } from './routes/goals'
+import { Route as BusinessRouteImport } from './routes/business'
+import { Route as AdvisorRouteImport } from './routes/advisor'
 import { Route as IndexRouteImport } from './routes/index'
 
+const TaxRoute = TaxRouteImport.update({
+  id: '/tax',
+  path: '/tax',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SettingsRoute = SettingsRouteImport.update({
+  id: '/settings',
+  path: '/settings',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RetirementRoute = RetirementRouteImport.update({
+  id: '/retirement',
+  path: '/retirement',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ResearchRoute = ResearchRouteImport.update({
+  id: '/research',
+  path: '/research',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PortfolioRoute = PortfolioRouteImport.update({
+  id: '/portfolio',
+  path: '/portfolio',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const OpportunitiesRoute = OpportunitiesRouteImport.update({
+  id: '/opportunities',
+  path: '/opportunities',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MarketRoute = MarketRouteImport.update({
+  id: '/market',
+  path: '/market',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const GoalsRoute = GoalsRouteImport.update({
+  id: '/goals',
+  path: '/goals',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const BusinessRoute = BusinessRouteImport.update({
+  id: '/business',
+  path: '/business',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdvisorRoute = AdvisorRouteImport.update({
+  id: '/advisor',
+  path: '/advisor',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
@@ -19,28 +79,172 @@ const IndexRoute = IndexRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/advisor': typeof AdvisorRoute
+  '/business': typeof BusinessRoute
+  '/goals': typeof GoalsRoute
+  '/market': typeof MarketRoute
+  '/opportunities': typeof OpportunitiesRoute
+  '/portfolio': typeof PortfolioRoute
+  '/research': typeof ResearchRoute
+  '/retirement': typeof RetirementRoute
+  '/settings': typeof SettingsRoute
+  '/tax': typeof TaxRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/advisor': typeof AdvisorRoute
+  '/business': typeof BusinessRoute
+  '/goals': typeof GoalsRoute
+  '/market': typeof MarketRoute
+  '/opportunities': typeof OpportunitiesRoute
+  '/portfolio': typeof PortfolioRoute
+  '/research': typeof ResearchRoute
+  '/retirement': typeof RetirementRoute
+  '/settings': typeof SettingsRoute
+  '/tax': typeof TaxRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/advisor': typeof AdvisorRoute
+  '/business': typeof BusinessRoute
+  '/goals': typeof GoalsRoute
+  '/market': typeof MarketRoute
+  '/opportunities': typeof OpportunitiesRoute
+  '/portfolio': typeof PortfolioRoute
+  '/research': typeof ResearchRoute
+  '/retirement': typeof RetirementRoute
+  '/settings': typeof SettingsRoute
+  '/tax': typeof TaxRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/advisor'
+    | '/business'
+    | '/goals'
+    | '/market'
+    | '/opportunities'
+    | '/portfolio'
+    | '/research'
+    | '/retirement'
+    | '/settings'
+    | '/tax'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/advisor'
+    | '/business'
+    | '/goals'
+    | '/market'
+    | '/opportunities'
+    | '/portfolio'
+    | '/research'
+    | '/retirement'
+    | '/settings'
+    | '/tax'
+  id:
+    | '__root__'
+    | '/'
+    | '/advisor'
+    | '/business'
+    | '/goals'
+    | '/market'
+    | '/opportunities'
+    | '/portfolio'
+    | '/research'
+    | '/retirement'
+    | '/settings'
+    | '/tax'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AdvisorRoute: typeof AdvisorRoute
+  BusinessRoute: typeof BusinessRoute
+  GoalsRoute: typeof GoalsRoute
+  MarketRoute: typeof MarketRoute
+  OpportunitiesRoute: typeof OpportunitiesRoute
+  PortfolioRoute: typeof PortfolioRoute
+  ResearchRoute: typeof ResearchRoute
+  RetirementRoute: typeof RetirementRoute
+  SettingsRoute: typeof SettingsRoute
+  TaxRoute: typeof TaxRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/tax': {
+      id: '/tax'
+      path: '/tax'
+      fullPath: '/tax'
+      preLoaderRoute: typeof TaxRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/settings': {
+      id: '/settings'
+      path: '/settings'
+      fullPath: '/settings'
+      preLoaderRoute: typeof SettingsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/retirement': {
+      id: '/retirement'
+      path: '/retirement'
+      fullPath: '/retirement'
+      preLoaderRoute: typeof RetirementRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/research': {
+      id: '/research'
+      path: '/research'
+      fullPath: '/research'
+      preLoaderRoute: typeof ResearchRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/portfolio': {
+      id: '/portfolio'
+      path: '/portfolio'
+      fullPath: '/portfolio'
+      preLoaderRoute: typeof PortfolioRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/opportunities': {
+      id: '/opportunities'
+      path: '/opportunities'
+      fullPath: '/opportunities'
+      preLoaderRoute: typeof OpportunitiesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/market': {
+      id: '/market'
+      path: '/market'
+      fullPath: '/market'
+      preLoaderRoute: typeof MarketRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/goals': {
+      id: '/goals'
+      path: '/goals'
+      fullPath: '/goals'
+      preLoaderRoute: typeof GoalsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/business': {
+      id: '/business'
+      path: '/business'
+      fullPath: '/business'
+      preLoaderRoute: typeof BusinessRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/advisor': {
+      id: '/advisor'
+      path: '/advisor'
+      fullPath: '/advisor'
+      preLoaderRoute: typeof AdvisorRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -53,17 +257,17 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AdvisorRoute: AdvisorRoute,
+  BusinessRoute: BusinessRoute,
+  GoalsRoute: GoalsRoute,
+  MarketRoute: MarketRoute,
+  OpportunitiesRoute: OpportunitiesRoute,
+  PortfolioRoute: PortfolioRoute,
+  ResearchRoute: ResearchRoute,
+  RetirementRoute: RetirementRoute,
+  SettingsRoute: SettingsRoute,
+  TaxRoute: TaxRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}
