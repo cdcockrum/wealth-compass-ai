@@ -8,12 +8,6 @@ import {
 const delay = <T,>(data: T, ms = 250): Promise<T> =>
   new Promise((r) => setTimeout(() => r(data), ms));
 
-export * from "./types";
-export * from "./mockResearchService";
-
-import { MockResearchProvider } from "./mockResearchService";
-
-export const researchProvider = new MockResearchProvider();
 
 export const PortfolioService = {
   getMetrics: () => delay(dashboardMetrics),
