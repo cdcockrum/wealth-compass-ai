@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 import { Search, Sparkles, CheckCircle2, Circle } from "lucide-react";
+import { ResearchConsole } from "@/components/research/ResearchConsole";
 
 export const Route = createFileRoute("/research")({
   component: Research,
@@ -94,54 +95,11 @@ function Research() {
         </div>
       </div>
 
-      <div className="rounded-2xl border border-border/60 bg-card p-5">
-        <div className="mb-4 flex items-center justify-between">
-          <div>
-            <h2 className="text-lg font-semibold">Research Console</h2>
-            <p className="text-sm text-muted-foreground">
-              {isAnalyzing
-                ? `Researching ${ticker}...`
-                : `Ready to analyze ${ticker}`}
-            </p>
-          </div>
-        </div>
-
-        <div className="rounded-xl border border-border/50 bg-black/30 p-4 font-mono text-sm">
-          <div className="space-y-2">
-            {steps.map((step) => (
-              <div key={step.label} className="flex items-center gap-3">
-                {step.status === "complete" ? (
-                  <CheckCircle2 className="h-4 w-4 text-success" />
-                ) : step.status === "running" ? (
-                  <Sparkles className="h-4 w-4 animate-pulse text-primary" />
-                ) : (
-                  <Circle className="h-4 w-4 text-muted-foreground" />
-                )}
-
-                <span
-                  className={
-                    step.status === "pending"
-                      ? "text-muted-foreground"
-                      : "text-foreground"
-                  }
-                >
-                  {step.status === "pending"
-                    ? `Waiting: ${step.label}`
-                    : step.status === "running"
-                      ? `Working: ${step.label}...`
-                      : `Complete: ${step.label}`}
-                </span>
-              </div>
-            ))}
-          </div>
-
-          {!isAnalyzing && (
-            <div className="mt-4 border-t border-border/40 pt-3 text-success">
-              Analysis complete. Investment report is ready.
-            </div>
-          )}
-        </div>
-      </div>
+      <ResearchConsole
+        ticker={ticker}
+        analyzing={isAnalyzing}
+        steps={steps}
+      />
     </div>
   );
 }
