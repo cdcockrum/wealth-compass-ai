@@ -20,6 +20,7 @@ import {
   BookOpen,
 } from "lucide-react";
 
+
 export const Route = createFileRoute("/research")({ component: Research });
 
 const researchSteps = [
@@ -30,6 +31,20 @@ const researchSteps = [
   "Recent News",
   "Investment Thesis",
 ];
+
+type StepStatus = "pending" | "running" | "complete";
+
+const initialResearchSteps = [
+  "Company Profile",
+  "Financial Statements",
+  "SEC Filings",
+  "Industry Comparison",
+  "Recent News",
+  "Investment Thesis",
+].map((label) => ({
+  label,
+  status: "complete" as StepStatus,
+}));
 
 function Research() {
   const [ticker, setTicker] = useState("AAPL");
@@ -42,6 +57,38 @@ function Research() {
   if (!company) return null;
 
   const upside = (((company.fairValue - company.price) / company.price) * 100).toFixed(1);
+
+  const [steps, setSteps] = useState(initialResearchSteps);
+  const [isAnalyzing, setIsAnalyzing] = useState(false);
+
+  const runAnalysis = async () => {
+    setIsAnalyzing(true);
+
+    const resetSteps = initialResearchSteps.map((step) => ({
+      ...step,
+      status: "pending" as StepStatus,
+    }));
+
+    setSteps(resetSteps);
+
+    for (let i = 0; i < resetSteps.length; i++) {
+      setSteps((current) =>
+        current.map((step, index) =>
+          index === i ? { ...step, status: "running" } : step
+        )
+      );
+
+      await new Promise((resolve) => setTimeout(resolve, 500));
+
+      setSteps((current) =>
+        current.map((step, index) =>
+          index === i ? { ...step, status: "complete" } : step
+        )
+      );
+    }
+
+    setIsAnalyzing(false);
+  };
 
   return (
     <div className="mx-auto max-w-[1600px]">
@@ -62,9 +109,9 @@ function Research() {
               className="h-12 w-full rounded-xl border border-border/60 bg-secondary/40 pl-11 pr-4 text-sm focus:border-primary/40 focus:outline-none focus:ring-2 focus:ring-primary/20"
             />
           </div>
-          <Button size="lg">
+          <Button size="lg" onClick={runAnalysis} disabled={isAnalyzing}>
             <Sparkles className="mr-2 h-4 w-4" />
-            Analyze
+            {isAnalyzing ? "Analyzing..." : "Analyze"}
           </Button>
           <Button size="lg" variant="outline">
             <Star className="mr-2 h-4 w-4" />
@@ -109,14 +156,26 @@ function Research() {
           </SectionCard>
 
           <SectionCard title="Research progress" actions={<Sparkles className="h-4 w-4 text-primary" />}>
-            <div className="grid gap-3 md:grid-cols-2 lg:grid-cols-3">
-              {researchSteps.map((step) => (
-                <div key={step} className="flex items-center gap-3 rounded-xl border border-border/50 bg-secondary/30 p-3">
+          <div className="grid gap-3 md:grid-cols-2 lg:grid-cols-3">
+            {steps.map((step) => (
+              <div
+                key={step.label}
+                className="flex items-center gap-3 rounded-xl border border-border/50 bg-secondary/30 p-3"
+              >
+                {step.status === "complete" ? (
                   <CheckCircle2 className="h-5 w-5 text-success" />
-                  <span className="text-sm font-medium">{step}</span>
-                </div>
-              ))}
-            </div>
+                ) : step.status === "running" ? (
+                  <Sparkles className="h-5 w-5 animate-pulse text-primary" />
+                ) : (
+                  <Circle className="h-5 w-5 text-muted-foreground" />
+                )}
+
+                <span className="text-sm font-medium">
+                  {step.label}
+                </span>
+              </div>
+            ))}
+          </div>
           </SectionCard>
 
           <div className="grid gap-6 md:grid-cols-3">
