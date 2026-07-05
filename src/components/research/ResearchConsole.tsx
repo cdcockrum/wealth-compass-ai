@@ -28,7 +28,7 @@ export function ResearchConsole({
   }, [steps]);
 
   return (
-    <div className="rounded-2xl border border-zinc-800 bg-zinc-950 overflow-hidden">
+    <div className="overflow-hidden rounded-2xl border border-zinc-800 bg-zinc-950">
       <div className="border-b border-zinc-800 bg-zinc-900 px-5 py-3">
         <h2 className="font-semibold text-zinc-100">
           AI Research Terminal
