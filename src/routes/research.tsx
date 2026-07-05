@@ -1,7 +1,9 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
-import { Search, Sparkles, CheckCircle2, Circle } from "lucide-react";
-import { ResearchConsole } from "@/components/research/ResearchConsole";
+import { Search, Sparkles } from "lucide-react";
+import { ResearchConsole } fom "@/components/research/ResearchConsole";
+import { runWorkflow } from "@/engine";
+import { researchWorkflow } from "@/engine/workflows";
 
 export const Route = createFileRoute("/research")({
   component: Research,
@@ -10,11 +12,11 @@ export const Route = createFileRoute("/research")({
 type StepStatus = "pending" | "running" | "complete";
 
 const researchSteps = [
-  "Loading company profile",
-  "Reviewing financial statements",
-  "Scanning SEC filings",
-  "Comparing industry peers",
-  "Reading recent news",
+  "Identifying company",
+  "Loading market data",
+  "Loading financial statements",
+  "Reading SEC filings",
+  "Analyzing recent news",
   "Generating investment thesis",
 ];
 
@@ -29,7 +31,7 @@ function Research() {
   );
 
   const runAnalysis = async () => {
-    setIsAnalyzing(true);
+  setIsAnalyzing(true);
 
     const resetSteps = researchSteps.map((label) => ({
       label,
@@ -38,21 +40,29 @@ function Research() {
 
     setSteps(resetSteps);
 
-    for (let i = 0; i < resetSteps.length; i++) {
-      setSteps((current) =>
-        current.map((step, index) =>
-          index === i ? { ...step, status: "running" } : step
-        )
-      );
+    await runWorkflow(researchWorkflow, (event) => {
+      if (event.type === "step_started") {
+        setSteps((current) =>
+          current.map((step) =>
+            step.label === event.message
+              ? { ...step, status: "running" }
+              : step
+          )
+        );
+      }
 
-      await new Promise((resolve) => setTimeout(resolve, 500));
+      if (event.type === "step_completed") {
+        const completedLabel = event.message.replace("Completed: ", "");
 
-      setSteps((current) =>
-        current.map((step, index) =>
-          index === i ? { ...step, status: "complete" } : step
-        )
-      );
-    }
+        setSteps((current) =>
+          current.map((step) =>
+            step.label === completedLabel
+              ? { ...step, status: "complete" }
+              : step
+          )
+        );
+      }
+    });
 
     setIsAnalyzing(false);
   };
