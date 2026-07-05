@@ -44,30 +44,61 @@ export function ResearchConsole({
       </div>
 
       <div className="max-h-[420px] overflow-y-auto p-5 font-mono text-sm">
-        {steps.map((step) => (
-          <div
-            key={step.label}
-            className="mb-3 flex items-center gap-3"
-          >
-            {step.status === "complete" ? (
-              <CheckCircle2 className="h-4 w-4 text-emerald-400" />
-            ) : step.status === "running" ? (
-              <Sparkles className="h-4 w-4 animate-pulse text-sky-400" />
-            ) : (
-              <Circle className="h-4 w-4 text-zinc-600" />
-            )}
+                {logs && logs.length > 0 ? (
+          <>
+            {logs.map((log) => (
+              <div
+                key={log.id}
+                className="mb-2 flex items-start gap-4"
+              >
+                <span className="w-20 shrink-0 text-zinc-500">
+                  {log.timestamp}
+                </span>
 
-            <span
-              className={
-                step.status === "pending"
-                  ? "text-zinc-500"
-                  : "text-zinc-200"
-              }
-            >
-              {step.label}
-            </span>
-          </div>
-        ))}
+                <span
+                  className={
+                    log.level === "success"
+                      ? "text-emerald-400"
+                      : log.level === "warning"
+                        ? "text-amber-400"
+                        : log.level === "error"
+                          ? "text-red-400"
+                          : "text-zinc-200"
+                  }
+                >
+                  {log.message}
+                </span>
+              </div>
+            ))}
+          </>
+        ) : (
+          <>
+            {steps.map((step) => (
+              <div
+                key={step.label}
+                className="mb-3 flex items-center gap-3"
+              >
+                {step.status === "complete" ? (
+                  <CheckCircle2 className="h-4 w-4 text-emerald-400" />
+                ) : step.status === "running" ? (
+                  <Sparkles className="h-4 w-4 animate-pulse text-sky-400" />
+                ) : (
+                  <Circle className="h-4 w-4 text-zinc-600" />
+                )}
+
+                <span
+                  className={
+                    step.status === "pending"
+                      ? "text-zinc-500"
+                      : "text-zinc-200"
+                  }
+                >
+                     {step.label}
+                </span>
+              </div>
+            ))}
+          </>
+        )}
 
         <div ref={bottomRef} />
       </div>

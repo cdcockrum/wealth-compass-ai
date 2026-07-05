@@ -4,6 +4,7 @@ import { Search, Sparkles } from "lucide-react";
 import { ResearchConsole } from "@/components/research/ResearchConsole";
 import { runWorkflow } from "@/engine";
 import { researchWorkflow } from "@/engine/workflows";
+import type { ResearchLogMessage } from "@/components/research/researchLogTypes";
 
 export const Route = createFileRoute("/research")({
   component: Research,
@@ -23,41 +24,28 @@ const researchSteps = [
 function Research() {
   const [ticker, setTicker] = useState("AAPL");
   const [isAnalyzing, setIsAnalyzing] = useState(false);
-  const [steps, setSteps] = useState(
-    researchSteps.map((label) => ({
-      label,
-      status: "complete" as StepStatus,
-    }))
-  );
+
+  const [logs, setLogs] = useState<ResearchLogMessage[]>([]);
 
   const runAnalysis = async () => {
     setIsAnalyzing(true);
-
-    const resetSteps = researchSteps.map((label) => ({
-      label,
-      status: "pending" as StepStatus,
-    }));
-
-    setSteps(resetSteps);
+    setLogs([]);
 
     await runWorkflow(researchWorkflow, (event) => {
-      if (event.type === "step_started") {
-        setSteps((current) =>
-          current.map((step) =>
-            step.label === event.message ? { ...step, status: "running" } : step
-          )
-        );
-      }
-
-      if (event.type === "step_completed") {
-        const completedLabel = event.message.replace("Completed: ", "");
-
-        setSteps((current) =>
-          current.map((step) =>
-            step.label === completedLabel ? { ...step, status: "complete" } : step
-          )
-        );
-      }
+      setLogs((current) => [
+        ...current,
+        {
+          id: event.id,
+          timestamp: event.timestamp,
+          message: event.message,
+          level:
+            event.type === "completed"
+              ? "success"
+              : event.type === "step_failed"
+                ? "error"
+                : "info",
+        },
+      ]);
     });
 
     setIsAnalyzing(false);
@@ -101,7 +89,12 @@ function Research() {
         </div>
       </div>
 
-      <ResearchConsole ticker={ticker} analyzing={isAnalyzing} steps={steps} />
+      <ResearchConsole
+        ticker={ticker}
+        analyzing={isAnalyzing}
+        steps={[]}
+        logs={logs}
+      />
     </div>
   );
 }
