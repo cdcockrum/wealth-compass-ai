@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 import { Search, Sparkles } from "lucide-react";
-import { ResearchConsole } fom "@/components/research/ResearchConsole";
+import { ResearchConsole } from "@/components/research/ResearchConsole";
 import { runWorkflow } from "@/engine";
 import { researchWorkflow } from "@/engine/workflows";
 
@@ -31,7 +31,7 @@ function Research() {
   );
 
   const runAnalysis = async () => {
-  setIsAnalyzing(true);
+    setIsAnalyzing(true);
 
     const resetSteps = researchSteps.map((label) => ({
       label,
@@ -44,9 +44,7 @@ function Research() {
       if (event.type === "step_started") {
         setSteps((current) =>
           current.map((step) =>
-            step.label === event.message
-              ? { ...step, status: "running" }
-              : step
+            step.label === event.message ? { ...step, status: "running" } : step
           )
         );
       }
@@ -56,9 +54,7 @@ function Research() {
 
         setSteps((current) =>
           current.map((step) =>
-            step.label === completedLabel
-              ? { ...step, status: "complete" }
-              : step
+            step.label === completedLabel ? { ...step, status: "complete" } : step
           )
         );
       }
@@ -105,11 +101,7 @@ function Research() {
         </div>
       </div>
 
-      <ResearchConsole
-        ticker={ticker}
-        analyzing={isAnalyzing}
-        steps={steps}
-      />
+      <ResearchConsole ticker={ticker} analyzing={isAnalyzing} steps={steps} />
     </div>
   );
 }
