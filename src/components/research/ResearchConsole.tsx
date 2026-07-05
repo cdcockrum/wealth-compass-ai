@@ -1,5 +1,6 @@
 import { useEffect, useRef } from "react";
 import { CheckCircle2, Circle, Sparkles } from "lucide-react";
+import type { ResearchLogMessage } from "./researchLogTypes";
 
 export type ConsoleStatus = "pending" | "running" | "complete";
 
@@ -12,6 +13,7 @@ interface ResearchConsoleProps {
   ticker: string;
   analyzing: boolean;
   steps: ConsoleStep[];
+  logs?: ResearchLogMessage[];
 }
 
 export function ResearchConsole({
