@@ -4,49 +4,78 @@ const wait = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
 export const researchWorkflow: Workflow = {
   id: "research",
-  name: "Company Research",
+  name: "AI Investment Research",
 
   steps: [
     {
-      id: "identify",
-      label: "Identifying company",
-      async run() {
-        await wait(500);
-      },
-    },
-    {
-      id: "market",
-      label: "Loading market data",
-      async run() {
-        await wait(600);
-      },
-    },
-    {
-      id: "financials",
-      label: "Loading financial statements",
+      id: "identify-company",
+      label: "Identifying company and retrieving market profile...",
       async run() {
         await wait(700);
       },
     },
+
     {
-      id: "sec",
-      label: "Reading SEC filings",
+      id: "fundamentals",
+      label: "Analyzing financial fundamentals...",
+      async run() {
+        await wait(900);
+      },
+    },
+
+    {
+      id: "financial-statements",
+      label: "Reviewing income statement, balance sheet, and cash flow...",
+      async run() {
+        await wait(1200);
+      },
+    },
+
+    {
+      id: "sec-filings",
+      label: "Reading recent SEC filings and management discussion...",
+      async run() {
+        await wait(1100);
+      },
+    },
+
+    {
+      id: "competition",
+      label: "Comparing competitors and industry positioning...",
+      async run() {
+        await wait(900);
+      },
+    },
+
+    {
+      id: "news",
+      label: "Evaluating recent news and macroeconomic events...",
+      async run() {
+        await wait(900);
+      },
+    },
+
+    {
+      id: "valuation",
+      label: "Estimating intrinsic value and valuation metrics...",
+      async run() {
+        await wait(1000);
+      },
+    },
+
+    {
+      id: "committee",
+      label: "Consulting AI Investment Committee...",
       async run() {
         await wait(800);
       },
     },
-    {
-      id: "news",
-      label: "Analyzing recent news",
-      async run() {
-        await wait(600);
-      },
-    },
+
     {
       id: "thesis",
-      label: "Generating investment thesis",
+      label: "Generating investment thesis and confidence score...",
       async run() {
-        await wait(900);
+        await wait(1300);
       },
     },
   ],

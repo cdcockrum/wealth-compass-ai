@@ -1,12 +1,11 @@
 import { Badge } from "@/components/ui/badge";
+import type { Company } from "@/models/Company";
 
 interface ResearchReportProps {
-  ticker: string;
+  company: Company;
 }
 
-export function ResearchReport({
-  ticker,
-}: ResearchReportProps) {
+export function ResearchReport({ company }: ResearchReportProps) {
   return (
     <div className="rounded-2xl border border-border/60 bg-card p-8">
       <div className="flex items-start justify-between">
@@ -16,13 +15,15 @@ export function ResearchReport({
           </p>
 
           <h2 className="mt-2 text-3xl font-bold">
-            {ticker}
+            {company.name}
           </h2>
 
-          <p className="mt-2 max-w-2xl text-muted-foreground">
-            AI-generated investment research combining market data,
-            company fundamentals, financial statements, SEC filings,
-            valuation metrics, and macroeconomic context.
+          <p className="mt-1 text-muted-foreground">
+            {company.sector} • {company.industry}
+          </p>
+
+          <p className="mt-4 text-muted-foreground">
+            {company.description}
           </p>
         </div>
 
@@ -32,65 +33,40 @@ export function ResearchReport({
       </div>
 
       <div className="mt-8 grid gap-6 md:grid-cols-2">
+        <div>
+          <h3 className="mb-3 font-semibold">Company Information</h3>
 
-        <section>
-          <h3 className="mb-3 font-semibold">
-            Investment Thesis
-          </h3>
+          <dl className="space-y-3">
+            <div className="flex justify-between">
+              <dt className="text-muted-foreground">Ticker</dt>
+              <dd>{company.ticker}</dd>
+            </div>
+
+            <div className="flex justify-between">
+              <dt className="text-muted-foreground">CEO</dt>
+              <dd>{company.ceo}</dd>
+            </div>
+
+            <div className="flex justify-between">
+              <dt className="text-muted-foreground">Market Cap</dt>
+              <dd>{company.marketCap.toLocaleString()}</dd>
+            </div>
+
+            <div className="flex justify-between">
+              <dt className="text-muted-foreground">Website</dt>
+              <dd>{company.website}</dd>
+            </div>
+          </dl>
+        </div>
+
+        <div>
+          <h3 className="mb-3 font-semibold">Investment Thesis</h3>
 
           <p className="text-sm text-muted-foreground">
-            Microsoft continues to demonstrate exceptional financial
-            strength, durable competitive advantages, and consistent
-            free cash flow generation. Although valuation is above
-            historical averages, long-term growth drivers remain
-            compelling.
+            AI-generated investment thesis will appear here after the
+            research workflow completes.
           </p>
-        </section>
-
-        <section>
-          <h3 className="mb-3 font-semibold">
-            Business Quality
-          </h3>
-
-          <ul className="space-y-2 text-sm">
-            <li>★★★★★ Economic Moat</li>
-            <li>★★★★★ Management</li>
-            <li>★★★★★ Balance Sheet</li>
-            <li>★★★★☆ Valuation</li>
-            <li>★★★★★ Cash Flow</li>
-          </ul>
-        </section>
-
-      </div>
-
-      <div className="mt-8 grid gap-6 lg:grid-cols-2">
-
-        <section>
-          <h3 className="mb-3 font-semibold">
-            Bull Case
-          </h3>
-
-          <ul className="space-y-2 text-sm text-muted-foreground">
-            <li>• Azure continues double-digit growth.</li>
-            <li>• Strong AI positioning.</li>
-            <li>• Excellent capital allocation.</li>
-            <li>• Massive recurring revenue base.</li>
-          </ul>
-        </section>
-
-        <section>
-          <h3 className="mb-3 font-semibold">
-            Bear Case
-          </h3>
-
-          <ul className="space-y-2 text-sm text-muted-foreground">
-            <li>• Premium valuation.</li>
-            <li>• Cloud competition.</li>
-            <li>• Regulatory scrutiny.</li>
-            <li>• Slowing enterprise spending.</li>
-          </ul>
-        </section>
-
+        </div>
       </div>
     </div>
   );

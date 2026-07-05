@@ -6,24 +6,16 @@ import { runWorkflow } from "@/engine";
 import { researchWorkflow } from "@/engine/workflows";
 import type { ResearchLogMessage } from "@/components/research/researchLogTypes";
 import { ResearchReport } from "@/components/research/ResearchReport";
+import { useCompanyProfile } from "@/hooks/useCompanyProfile";
 
 export const Route = createFileRoute("/research")({
   component: Research,
 });
 
-type StepStatus = "pending" | "running" | "complete";
-
-const researchSteps = [
-  "Identifying company",
-  "Loading market data",
-  "Loading financial statements",
-  "Reading SEC filings",
-  "Analyzing recent news",
-  "Generating investment thesis",
-];
 
 function Research() {
   const [ticker, setTicker] = useState("AAPL");
+  const { data: company } = useCompanyProfile(ticker);
   const [isAnalyzing, setIsAnalyzing] = useState(false);
 
   const [logs, setLogs] = useState<ResearchLogMessage[]>([]);
@@ -96,9 +88,11 @@ function Research() {
         steps={[]}
         logs={logs}
       />
-      {!isAnalyzing && logs.length > 0 && (
-        <ResearchReport ticker={ticker} />
+      
+      {company && !isAnalyzing && (
+        <ResearchReport company={company} />
       )}
+      
     </div>
   );
 }
