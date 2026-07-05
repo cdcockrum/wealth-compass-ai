@@ -5,6 +5,7 @@ import { ResearchConsole } from "@/components/research/ResearchConsole";
 import { runWorkflow } from "@/engine";
 import { researchWorkflow } from "@/engine/workflows";
 import type { ResearchLogMessage } from "@/components/research/researchLogTypes";
+import { ResearchReport } from "@/components/research/ResearchReport";
 
 export const Route = createFileRoute("/research")({
   component: Research,
@@ -95,6 +96,9 @@ function Research() {
         steps={[]}
         logs={logs}
       />
+      {!isAnalyzing && logs.length > 0 && (
+        <ResearchReport ticker={ticker} />
+      )}
     </div>
   );
 }
