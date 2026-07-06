@@ -1,4 +1,7 @@
-import { analyzeBusinessQuality } from "@/analysis";
+import {
+  analyzeBusinessQuality,
+  analyzeFinancialHealth,
+} from "@/analysis";
 import { Badge } from "@/components/ui/badge";
 import type { Company } from "@/models/Company";
 import { ScoreCard } from "./ScoreCard";
@@ -9,6 +12,12 @@ interface ResearchReportProps {
 
 export function ResearchReport({ company }: ResearchReportProps) {
   const quality = analyzeBusinessQuality(company);
+  const health = analyzeFinancialHealth({
+    currentRatio: 2.1,
+    debtToEquity: 0.31,
+    operatingMargin: 42,
+    freeCashFlowPositive: true,
+  });
 
   return (
     <div className="rounded-2xl border border-border/60 bg-card p-8">
@@ -67,44 +76,23 @@ export function ResearchReport({ company }: ResearchReportProps) {
         </div>
       </div>
 
-      <section className="mt-8 rounded-xl border border-border/60 p-6">
-        <div className="flex items-center justify-between">
-          <h3 className="text-xl font-semibold">Business Quality</h3>
+      <ScoreCard
+        title="Business Quality"
+        score={quality.score}
+        rating={quality.rating}
+        strengths={quality.strengths}
+        concerns={quality.concerns}
+      />
 
-          <div className="text-right">
-            <div className="text-3xl font-bold">{quality.score}</div>
-            <div className="text-sm text-muted-foreground">
-              {quality.rating}
-            </div>
-          </div>
-        </div>
+        <div className="mt-6" />
 
-        <div className="mt-6 grid gap-6 md:grid-cols-2">
-          <div>
-            <h4 className="mb-3 font-medium text-emerald-500">Strengths</h4>
-
-            <ul className="space-y-2 text-sm text-muted-foreground">
-              {quality.strengths.map((item: string) => (
-                <li key={item}>• {item}</li>
-              ))}
-            </ul>
-          </div>
-
-          <div>
-            <h4 className="mb-3 font-medium text-amber-500">Concerns</h4>
-
-            <ul className="space-y-2 text-sm text-muted-foreground">
-              {quality.concerns.length ? (
-                quality.concerns.map((item: string) => (
-                  <li key={item}>• {item}</li>
-                ))
-              ) : (
-                <li>No major concerns detected.</li>
-              )}
-            </ul>
-          </div>
-        </div>
-      </section>
+      <ScoreCard
+        title="Financial Health"
+        score={health.score}
+        rating={health.rating}
+        strengths={health.strengths}
+        concerns={health.concerns}
+      />
     </div>
   );
 }
