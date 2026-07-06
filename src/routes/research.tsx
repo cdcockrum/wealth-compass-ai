@@ -7,6 +7,7 @@ import { researchWorkflow } from "@/engine/workflows";
 import type { ResearchLogMessage } from "@/components/research/researchLogTypes";
 import { ResearchReport } from "@/components/research/ResearchReport";
 import { useCompanyProfile } from "@/hooks/useCompanyProfile";
+import { analyzeBusinessQuality } from "@/analysis";
 
 export const Route = createFileRoute("/research")({
   component: Research,
@@ -14,6 +15,7 @@ export const Route = createFileRoute("/research")({
 
 
 function Research() {
+  const quality = analyzeBusinessQuality(company);
   const [ticker, setTicker] = useState("AAPL");
   const { data: company } = useCompanyProfile(ticker);
   const [isAnalyzing, setIsAnalyzing] = useState(false);
