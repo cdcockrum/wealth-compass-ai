@@ -7,7 +7,7 @@ import { researchWorkflow } from "@/engine/workflows";
 import type { ResearchLogMessage } from "@/components/research/researchLogTypes";
 import { ResearchReport } from "@/components/research/ResearchReport";
 import { useCompanyProfile } from "@/hooks/useCompanyProfile";
-import { analyzeBusinessQuality } from "@/analysis";
+
 
 export const Route = createFileRoute("/research")({
   component: Research,
@@ -15,9 +15,12 @@ export const Route = createFileRoute("/research")({
 
 
 function Research() {
-  const quality = analyzeBusinessQuality(company);
   const [ticker, setTicker] = useState("AAPL");
-  const { data: company } = useCompanyProfile(ticker);
+  const {
+  data: company,
+  isLoading: companyLoading,
+  error: companyError,
+} = useCompanyProfile(ticker);
   const [isAnalyzing, setIsAnalyzing] = useState(false);
 
   const [logs, setLogs] = useState<ResearchLogMessage[]>([]);
@@ -90,7 +93,19 @@ function Research() {
         steps={[]}
         logs={logs}
       />
-      
+
+      {companyLoading && logs.length > 0 && (
+        <div className="rounded-xl border border-border/60 bg-card p-4 text-sm text-muted-foreground">
+          Loading company profile...
+        </div>
+      )}
+
+      {companyError && (
+        <div className="rounded-xl border border-destructive/40 bg-destructive/10 p-4 text-sm text-destructive">
+          Could not load company profile. Check your FMP API key and ticker symbol.
+        </div>
+      )}
+
       {company && !isAnalyzing && (
         <ResearchReport company={company} />
       )}

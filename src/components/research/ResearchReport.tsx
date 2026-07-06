@@ -1,6 +1,7 @@
 import { analyzeBusinessQuality } from "@/analysis";
 import { Badge } from "@/components/ui/badge";
 import type { Company } from "@/models/Company";
+import { ScoreCard } from "./ScoreCard";
 
 interface ResearchReportProps {
   company: Company;
