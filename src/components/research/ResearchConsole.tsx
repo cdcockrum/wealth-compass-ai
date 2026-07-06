@@ -20,7 +20,9 @@ export function ResearchConsole({
   ticker,
   analyzing,
   steps,
+  logs,
 }: ResearchConsoleProps) {
+
   const bottomRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {

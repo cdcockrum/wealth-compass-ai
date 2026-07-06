@@ -5,19 +5,19 @@ import {
 import { Badge } from "@/components/ui/badge";
 import type { Company } from "@/models/Company";
 import { ScoreCard } from "./ScoreCard";
+import type { CompanyMetrics } from "@/models/CompanyMetrics";
+import { buildResearchReport } from "@/analysis/buildResearchReport";
 
 interface ResearchReportProps {
   company: Company;
+  metrics: CompanyMetrics;
 }
 
-export function ResearchReport({ company }: ResearchReportProps) {
-  const quality = analyzeBusinessQuality(company);
-  const health = analyzeFinancialHealth({
-    currentRatio: 2.1,
-    debtToEquity: 0.31,
-    operatingMargin: 42,
-    freeCashFlowPositive: true,
-  });
+export function ResearchReport({
+  company,
+  metrics,
+}: ResearchReportProps) {
+  const report = buildResearchReport(company, metrics);
 
   return (
     <div className="rounded-2xl border border-border/60 bg-card p-8">
@@ -78,20 +78,20 @@ export function ResearchReport({ company }: ResearchReportProps) {
 
       <ScoreCard
         title="Business Quality"
-        score={quality.score}
-        rating={quality.rating}
-        strengths={quality.strengths}
-        concerns={quality.concerns}
+        score={report.businessQuality.score}
+        rating={report.businessQuality.rating}
+        strengths={report.businessQuality.strengths}
+        concerns={report.businessQuality.concerns}
       />
 
         <div className="mt-6" />
 
       <ScoreCard
         title="Financial Health"
-        score={health.score}
-        rating={health.rating}
-        strengths={health.strengths}
-        concerns={health.concerns}
+        score={report.financialHealth.score}
+        rating={report.financialHealth.rating}
+        strengths={report.financialHealth.strengths}
+        concerns={report.financialHealth.concerns}
       />
     </div>
   );

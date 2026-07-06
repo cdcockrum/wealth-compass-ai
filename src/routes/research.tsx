@@ -7,6 +7,7 @@ import { researchWorkflow } from "@/engine/workflows";
 import type { ResearchLogMessage } from "@/components/research/researchLogTypes";
 import { ResearchReport } from "@/components/research/ResearchReport";
 import { useCompanyProfile } from "@/hooks/useCompanyProfile";
+import { useCompanyMetrics } from "@/hooks/useCompanyMetrics";
 
 
 export const Route = createFileRoute("/research")({
@@ -21,6 +22,12 @@ function Research() {
   isLoading: companyLoading,
   error: companyError,
 } = useCompanyProfile(ticker);
+  const {
+  data: metrics,
+  isLoading: metricsLoading,
+  error: metricsError,
+
+} = useCompanyMetrics(ticker);
   const [isAnalyzing, setIsAnalyzing] = useState(false);
 
   const [logs, setLogs] = useState<ResearchLogMessage[]>([]);
@@ -106,8 +113,12 @@ function Research() {
         </div>
       )}
 
-      {company && !isAnalyzing && (
-        <ResearchReport company={company} />
+      
+      {company && metrics && !isAnalyzing && (
+        <ResearchReport
+          company={company}
+          metrics={metrics}
+        />
       )}
       
     </div>
